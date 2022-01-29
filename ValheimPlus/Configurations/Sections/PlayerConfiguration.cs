@@ -15,13 +15,16 @@
         public float guardianBuffCooldown { get; internal set; } = 1200;
         public bool disableGuardianBuffAnimation { get; internal set; } = false;
         public bool autoEquipShield { get; internal set; } = false;
+        public bool autoUnequipShield { get; internal set; } = false;
         public bool skipIntro { get; internal set; } = false;
         public bool iHaveArrivedOnSpawn { get; internal set; } = true;
         public bool queueWeaponChanges { get; internal set; } = false;
+        public bool dontUnequipItemsWhenSwimming { get; internal set; } = false;
         public bool reequipItemsAfterSwimming { get; internal set; } = false;
         public float fallDamageScalePercent { get; internal set; } = 0;
         public float maxFallDamage { get; internal set; } = 100;
         public bool skipTutorials { get; internal set; } = false;
         public bool disableEncumbered { get; internal set; } = false;
+        public bool autoPickUpWhenEncumbered { get; internal set; } = false;
     }
 }

@@ -200,7 +200,7 @@
 				"defaultType": "float"
 			},
 			"pieceComfortRadius": {
-				"description": "The radius, in meters, in which a piece must be to contribute to the comfort level.",
+				"description": "The radius, in meters, in which a piece must be to contribute to the comfort level. The maximum is 300 meters.",
 				"defaultValue": "10",
 				"defaultType": "float"
 			},
@@ -255,6 +255,16 @@
 				"description": "Interval in seconds between each nearby chests discovery (Maximum is 50)",
 				"defaultValue": "3",
 				"defaultType": "int"
+			},
+			"allowCraftingFromCarts": {
+				"description": "Allows the system to use and see contents of carts for crafting",
+				"defaultValue": "true",
+				"defaultType": "bool"
+			},
+			"allowCraftingFromShips": {
+				"description": "Allows the system to use and see contents of ships for crafting",
+				"defaultValue": "true",
+				"defaultType": "bool"
 			}
 		}
 	},
@@ -393,6 +403,12 @@
 			},
 			"swim": {
 				"description": "The modifier value for the experience gained of swimming.",
+				"defaultValue": "0",
+				"defaultType": "float",
+				"modifier": "true"
+			},
+			"ride": {
+				"description": "The modifier value for the experience gained of riding.",
 				"defaultValue": "0",
 				"defaultType": "float",
 				"modifier": "true"
@@ -655,8 +671,8 @@
 				"defaultValue": "false",
 				"defaultType": "bool"
 			},
-			"forceConsole": {
-				"description": "If you set this to true the console will be force enabled ingame, false will force disable it.",
+			"disableConsole": {
+				"description": "If you set this to false the console will be force disabled in-game.",
 				"defaultValue": "false",
 				"defaultType": "bool"
 			},
@@ -1075,13 +1091,8 @@
 				"defaultValue": "false",
 				"defaultType": "bool"
 			},
-			"shareablePins": {
-				"desciption": "Allow pins to be shared",
-				"defaultValue": "false",
-				"defaultType": "bool"
-			},
 			"shareAllPins": {
-				"desciption": "Shares all pins always",
+				"desciption": "This option automatically shares created pins with everyone playing on the server.",
 				"defaultValue": "false",
 				"defaultType": "bool"
 			},
@@ -1173,6 +1184,11 @@
 				"defaultValue": "false",
 				"defaultType": "bool"
 			},
+			"autoUnequipShield": {
+				"description": "If set to true, when unequipping a one-handed weapon shield from your inventory is automatically unequipped.",
+				"defaultValue": "false",
+				"defaultType": "bool"
+			},
 			"queueWeaponChanges": {
 				"description": "If set to true, weapon switches requested mid-attack will be carried out when the current attack is finished (instead of being ignored)",
 				"defaultValue": "false",
@@ -1186,6 +1202,11 @@
 			"iHaveArrivedOnSpawn": {
 				"description": "If set to false, disables the \"I have arrived!\" message on player spawn.",
 				"defaultValue": "true",
+				"defaultType": "bool"
+			},
+			"dontUnequipItemsWhenSwimming": {
+				"description": "Your character will not put away / unequip your items when entering the water.",
+				"defaultValue": "false",
 				"defaultType": "bool"
 			},
 			"reequipItemsAfterSwimming": {
@@ -1210,6 +1231,11 @@
 			},
 			"disableEncumbered": {
 				"description": "If set to true, disables encumbered effect from carrying to much weight.",
+				"defaultValue": "false",
+				"defaultType": "bool"
+			},
+			"autoPickUpWhenEncumbered": {
+				"description": "If set to true, allows the auto pickup of items when encumbered (overweight) from carrying to much weight.",
 				"defaultValue": "false",
 				"defaultType": "bool"
 			}
@@ -1399,6 +1425,12 @@
 				"defaultValue": "0",
 				"defaultType": "float",
 				"modifier": "true"
+			},
+			"fishing": {
+				"description": "Changes the amount of stamina drain by %",
+				"defaultValue": "0",
+				"defaultType": "float",
+				"modifier": "true"
 			}
 		}
 	},
@@ -1566,12 +1598,22 @@
 				"defaultType": "int"
 			},
 			"ironChestColumns": {
-				"description": "Iron chests already have 8 columns by default but now you can lower it ",
-				"defaultValue": "8",
+				"description": "Iron chest number of columns.",
+				"defaultValue": "6",
 				"defaultType": "int"
 			},
 			"ironChestRows": {
 				"description": "Iron chest number of rows (more than 4 rows will add a scrollbar)",
+				"defaultValue": "4",
+				"defaultType": "int"
+			},
+			"blackmetalChestColumns": {
+				"description": "Blackmetal chests already have 8 columns by default but now you can lower it.",
+				"defaultValue": "8",
+				"defaultType": "int"
+			},
+			"blackmetalChestRows": {
+				"description": "Blackmetal chest number of rows (more than 4 rows will add a scrollbar)",
 				"defaultValue": "4",
 				"defaultType": "int"
 			},
@@ -1934,19 +1976,24 @@
 				"defaultValue": "false"
 			},
 			"mortality": {
-				"description": "Modify what happens when a tamed creature is attacked. 0 = normal, 1 = essential(deadly attacks stun instead of kill), 2 = immortal.",
+				"description": "Modify what happens when a tamed creature is attacked. 0 = normal, 1 = essential(deadly attacks stun instead of kill, tamed creatures can rarely still die), 2 = immortal.",
 				"defaultValue": "0",
 				"defaultType": "int"
 			},
 			"ownerDamageOverride": {
-				"description": "Change to true so any damage the owner does will override the mortality setting (e.g., an immortal/essential tame can still be killed by the owner).",
-				"defaultValue": "false",
+				"description": "This will circumvent the mortality setting, so even if tamed creatures are immortal, players can still kill them with a butcher knife. This option only works if have mortality to set to either essential(1) or immortal(2).",
+				"defaultValue": "true",
 				"defaultType": "bool"
 			},
 			"stunRecoveryTime": {
 				"description": "How long it takes for a tamed creature to recover(in seconds) if mortality is set to 1(essential) and they are stunned.",
 				"defaultValue": "10",
 				"defaultType": "float"
+			},
+			"stunInformation": {
+				"description": "If the tamed creature is recovering from a stun, then add Stunned to the hover text on mouse over.",
+				"defaultValue": "false",
+				"defaultType": "bool"
 			}
 		}
 	},

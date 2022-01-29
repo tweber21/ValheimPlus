@@ -38,6 +38,10 @@ We work together closely to make sure all our features are integrated and workin
 * Disable tutorials from Valkyrie.
 * Modify velocity and accuracy of projectiles from bows and javelins including a option to scale it with skill level.
 * Option to sleep without setting your spawn point.
+* Allow auto pickup of items when encumbered (overweight).
+* Option to disable the unequipping of items when entering the water.
+* Option to automatically unequip your shield when you're unequipping your main hand weapon.
+* Option to automatically equip your shield when you're equipping your main hand weapon.
 
 
 ### Player Hud
@@ -58,7 +62,7 @@ We work together closely to make sure all our features are integrated and workin
 * Allow all players to share all map exploration with every other player in the server, as long as their map position is displayed.
 * A system to automatically share all map progression with players connecting, even if they have never been on the server.
 * Option to show boats and carts on the map with icons.
-* A Map Marker UI to share your map markers with people currently online.
+* Automatically share all created pins with everyone connected to the Server.
 
 ### Camera 
 * Change the player's Field of View.
@@ -171,12 +175,15 @@ We work together closely to make sure all our features are integrated and workin
 # Creatures and Monsters
 
 ### Tamed Pets
-* Added option for tamed creatures to be normal, essential, or immortal.
+* Added option for tamed creatures to be essential, or immortal.
+* Essential tamed creatures are not fully invincble but get stunned when hit with a killing blow and healed to full life. They can still die, rarely.
+* Immortal tamed creatures are fully invincble to every type of damage.
 * Added option for modifying the time a tamed essential animal will spend stunned after being hit with what would normally be a killing blow.
-* Added option for determining whether only the owner of a tamed creature can hurt it or not(which also circumvents the essential/immortality option).
+* Added option for determining whether players can hurt tamed creatures or not when having essential/immortality option enabled.
+* Added option to display if the pet is stunned when hover over it with the mouse.
 
 ### Monsters
-* Modify velocity and accuracy of projectiles.
+* Modify velocity and accuracy of projectiles from monsters.
 * Modify damage and health scaling of monsters in multiplayer based on player count.
 
 # Server
@@ -189,7 +196,7 @@ We work together closely to make sure all our features are integrated and workin
 
 # Chat System
 * Change default text visibility distances for all types of ingame messages.
-*Disable forced uppercase and lowercase in shout and whisper messages.
+* Disable forced uppercase and lowercase in shout and whisper messages.
 * Options to limit shouting distance.
 * Options to limit ping distance.
 
@@ -304,20 +311,9 @@ This guide does not cover how to create a dedicated server. These are the steps 
 
 **Please read the section about Server Config & Version Control (About Version Enforcement) below.**
 
-## **Linux**
-[Easy to set up and ready to use ValheimPlus servers can be rented here at ZAP-Hosting.com !](https://zap-hosting.com/valheimplus)
+## **Linux/Unix**
 
-### **Game[Unix]**
-
-1. Download the [latest package called UnixServer.zip over this link](https://github.com/valheimPlus/ValheimPlus/releases/latest/). *(Scroll down and click "assets")*
-2. Locate your game folder manually or start Steam client and right-click the Valheim game in your Steam library and select Manage -> browse local files for Steam to open your game folder. 
-3. Extract the contents of the archive into the game folder.
-4. Make sure to run 'chmod u+x start_game_bepinex.sh' to make the start script executable.
-5. Right-click the Valheim game in your Steam library.
-6. Go to "Properties..." -> "Launch options" and input "./start_game_bepinex.sh %command%" or "bash ./start_game_bepinex.sh %command%" if the first command does not work.
-
-
-### **Server[Unix]**
+### **Server[Linux/Unix]**
 
 [Easy to set up and ready to use ValheimPlus servers can be rented here at ZAP-Hosting.com !](https://zap-hosting.com/valheimplus)
 
@@ -332,6 +328,35 @@ This guide does not cover how to create a dedicated server. These are the steps 
     * If you want to define the parameters elsewhere, you can pass them to start_server_bepinex.sh as you would to the valheim server executable (description included in the file). This is recommended over the first approach, as updates will overwrite the start script and you would have to configure it again.
     * If you are using [LGSM](https://linuxgsm.com), go inside your instance config file and change executable to "./start_server_bepinex.sh" to load the mod and your server arguments. More on LGSM config files can be found on [their homepage](https://docs.linuxgsm.com/configuration/linuxgsm-config).
 6. Make sure to start the server via start_server_bepinex.sh, else the mod will not be loaded.
+
+### **Game[Linux/Unix]**
+
+1. **NOTE:** It is recommended to install ValheimPlus before installing other mods, especially those which also use BepInEx.
+2. Download the [latest package called UnixServer.zip over this link](https://github.com/valheimPlus/ValheimPlus/releases/latest/). *(Scroll down and click "assets")*.
+3. Locate your `Valheim/` game folder.  
+  Open your Steam client. In your *"Library"* tab, right-click on Valheim.
+  Select *"Manage 🡺 Browse local files"*, and make note of the location.  
+  ![image](./resources/images/nav_steam_local_files.png)  
+4. Ensure that you have the correct path to your game folder location:  
+  ```  
+  my_path=/replace/with/your/path/to/common/Valheim/  
+  test -e $my_path/valheim_Data && echo "$my_path is valid!" || echo "$my_path is invalid :("  
+  ```
+5. Complete the installation by backing up your game folder, extracting the package, and adding the necessary permissions:
+
+  ```
+  mkdir $my_path/../Valheim.`date +%Y-%m-%d` && cp -br $my_path/* $_ && echo "backup created"    
+  unzip -o ~/Downloads/UnixServer.zip -d $my_path  
+  chmod u+x $my_path/start_game_bepinex.sh
+  ```
+  
+10. Return to your Steam client. In your *"Library"* tab, right-click on Valheim.   
+  Select *"Properties...."*  
+  In the pop-up, add the following to the *"Launch Options"* `./start_game_bepinex.sh %command%`  
+  (in rare cases that this command does not work, use `bash /start_game_bepinex.sh %command%` instead)  
+   ![image](./resources/images/nav_steam_launch_options.png)  
+
+
 
 **Uses libc6-dev**
 
