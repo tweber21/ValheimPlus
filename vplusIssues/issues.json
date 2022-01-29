@@ -11,4 +11,9 @@
 		"id": "3",
 		"bug_description": "Allow all ores in furnace is not working entirely correct."
 	}
+	,
+	"My issue": {
+		"id": "4",
+		"bug_description": "I am having issues."
+	}
 }
